@@ -1,0 +1,24 @@
+services:
+  tests:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - /app/node_modules
+
+    entrypoint:
+      [
+        "bash",
+        "-lc",
+        "npm ci && npm run build && npx playwright test --reporter=html",
+      ]
+    ports:
+      - "5173:5173"
+    shm_size: "1g"
+    ipc: host
+    environment:
+      - HOST=0.0.0.0
+      - PORT=5173
+      - CI=1
