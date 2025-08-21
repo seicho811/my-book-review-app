@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { useNavigate } from "react-router";
 
 type Errors = {
   email: boolean;
@@ -12,6 +13,8 @@ export default function LoginForm() {
     email: false,
     password: false,
   });
+
+  const navigate = useNavigate();
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -29,8 +32,7 @@ export default function LoginForm() {
 
     setErrors({ email: false, password: false });
     console.log({ email: email, password: password });
-
-    return;
+    navigate("/home");
   }
 
   return (

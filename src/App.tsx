@@ -1,13 +1,26 @@
-import Header from "./components/Header";
+import { Routes, Route } from "react-router";
+import Layout from "./Layout";
 import LoginForm from "./components/LoginForm";
-import Footer from "./components/Footer";
+import Home from "./components/Home";
 
 function App() {
   return (
     <>
-      <Header />
-      <LoginForm />
-      <Footer />
+      <Routes>
+        <Route
+          path="/"
+          element={<Layout />}
+        >
+          <Route
+            path="/login"
+            element={<LoginForm />}
+          />
+          <Route
+            path="/home"
+            element={<Home />}
+          />
+        </Route>
+      </Routes>
     </>
   );
 }
