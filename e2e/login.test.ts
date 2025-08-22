@@ -12,3 +12,17 @@ test("should login when fields with valid values", async ({ page }) => {
   ]);
   expect(page).toHaveURL("http://localhost:5173/home");
 });
+
+test("should not login when fileds are no-filled ", async ({ page }) => {
+  await page.goto("/login");
+  await page.getByRole("button", { name: /login/i }).click();
+  await expect(page).toHaveURL("/login");
+});
+
+test("should navigate to sign up page when clicking sign up link on login page", async ({
+  page,
+}) => {
+  await page.goto("/login");
+  await page.getByRole("link", { name: /register/i }).click();
+  await expect(page).toHaveURL("/signup");
+});
