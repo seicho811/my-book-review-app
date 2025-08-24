@@ -79,12 +79,7 @@ export default function LoginForm() {
           Password is required.
         </div>
       )}
-      <button
-        type="submit"
-        accept="image/*"
-      >
-        Login
-      </button>
+      <button type="submit">Login</button>
     </form>
   );
 }
