@@ -1,3 +1,4 @@
+import Compressor from "compressorjs";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
@@ -16,10 +17,37 @@ export default function SignUpForm() {
     email: false,
     password: false,
   });
+  const [iconRaw, setIconRaw] = useState<File | null>(null);
+  const [iconFile, setIconFile] = useState<File | null>(null);
+  const [compressing, setCompressing] = useState(false);
 
   const navigate = useNavigate();
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleIconChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0] ?? null;
+    if (!file) return;
+    setIconRaw(file);
+    setIconFile(null);
+
+    setCompressing(true);
+    try {
+      const blob = await compressImage(file);
+      const fileOut = blob instanceof File ? blob : toFile(blob, file);
+      setIconFile(fileOut);
+    } finally {
+      setCompressing(false);
+    }
+  }
+  function toFile(blob: Blob, original: File) {
+    const base = original.name.replace(/\.[^/.]+$/, "");
+    const ext = (blob.type || "image/jpeg").includes("png") ? "png" : "jpeg";
+    return new File([blob], `${base}.${ext}`, {
+      type: blob.type || "image/jpeg",
+      lastModified: Date.now(),
+    });
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     const newErrors = {
@@ -35,8 +63,56 @@ export default function SignUpForm() {
     }
 
     setErrors({ name: false, email: false, password: false });
-    console.log(name, email, password);
+
+    const form = new FormData();
+    if (iconFile) {
+      form.append(
+        "icon",
+        iconFile,
+        iconFile instanceof File ? iconFile.name : "icon.jpg"
+      );
+    }
+
+    const res = await fetch("https://railway.bookreview.techtrain.dev/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ name: name, email: email, password: password }),
+    });
+
+    const data = await res.json();
+    const { token } = data;
+
+    const res2 = await fetch(
+      "https://railway.bookreview.techtrain.dev/uploads",
+      {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: form,
+      }
+    );
+
     navigate("/home");
+  }
+
+  async function compressImage(file: File) {
+    return new Promise<Blob>((resolve, reject) => {
+      const masSizeInBytes = 800 * 1024;
+
+      new Compressor(file, {
+        quality: 0.8,
+        convertSize: masSizeInBytes,
+        maxWidth: 512,
+        success(result) {
+          resolve(result);
+        },
+        error(error) {
+          reject(error);
+        },
+      });
+    });
   }
 
   return (
@@ -54,7 +130,14 @@ export default function SignUpForm() {
           }}
         />
       </div>
-      {errors?.name && <div className="alert">Name is required.</div>}
+      {errors?.name && (
+        <div
+          className="alert"
+          role="alert"
+        >
+          Name is required.
+        </div>
+      )}
       <div>
         <label htmlFor="email">Email</label>
         <input
@@ -68,7 +151,14 @@ export default function SignUpForm() {
           }}
         />
       </div>
-      {errors?.email && <div className="alert">Email is required.</div>}
+      {errors?.email && (
+        <div
+          className="alert"
+          role="alert"
+        >
+          Email is required.
+        </div>
+      )}
       <div>
         <label htmlFor="password">Password</label>
         <input
@@ -82,7 +172,24 @@ export default function SignUpForm() {
           }}
         />
       </div>
-      {errors?.password && <div className="alert">Password is required.</div>}
+      {errors?.password && (
+        <div
+          className="alert"
+          role="alert"
+        >
+          Password is required.
+        </div>
+      )}
+      <div>
+        <label htmlFor="iconField">Icon</label>
+        <input
+          type="file"
+          id="iconField"
+          name="iconField"
+          accept="image/*"
+          onChange={handleIconChange}
+        />
+      </div>
       <button type="submit">Sign up</button>
     </form>
   );
