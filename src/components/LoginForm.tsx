@@ -50,7 +50,14 @@ export default function LoginForm() {
           }}
         />
       </div>
-      {errors.email && <div className="alert">Email is required</div>}
+      {errors.email && (
+        <div
+          className="alert"
+          role="alert"
+        >
+          Email is required.
+        </div>
+      )}
       <div>
         <label htmlFor="password">Password</label>
         <input
@@ -64,8 +71,20 @@ export default function LoginForm() {
           }}
         />
       </div>
-      {errors.password && <div className="alert">Password is required</div>}
-      <button type="submit">Login</button>
+      {errors.password && (
+        <div
+          className="alert"
+          role="alert"
+        >
+          Password is required.
+        </div>
+      )}
+      <button
+        type="submit"
+        accept="image/*"
+      >
+        Login
+      </button>
     </form>
   );
 }
