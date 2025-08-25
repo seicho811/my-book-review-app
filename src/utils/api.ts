@@ -11,7 +11,11 @@ async function signUp(payload: {
     },
     body: JSON.stringify(payload),
   });
+  if (!res.ok) {
+    throw new Error(`Sign up faild (${res.status}): ${res.statusText}`);
+  }
   const data = await res.json();
+  if (!data.token) throw new Error("Token is missing in sign-up response");
   return data.token;
 }
 
@@ -23,6 +27,9 @@ async function uploadIcon(token: string, file: File) {
     headers: { Authorization: `Bearer ${token}` },
     body: form,
   });
+  if (!res.ok) {
+    throw new Error(`Icon upload failed (${res.status}): ${res.statusText}`);
+  }
 }
 
 export { signUp, uploadIcon };

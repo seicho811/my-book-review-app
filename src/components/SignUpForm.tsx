@@ -18,6 +18,7 @@ export default function SignUpForm() {
     email: false,
     password: false,
   });
+  const [formError, setFormError] = useState<string | null>(null);
   const [iconRaw, setIconRaw] = useState<File | null>(null);
   const [iconFile, setIconFile] = useState<File | null>(null);
   const [compressing, setCompressing] = useState(false);
@@ -76,8 +77,8 @@ export default function SignUpForm() {
         uploadIcon(token, iconFile);
       }
       navigate("/home");
-    } catch {
-      ///
+    } catch (err) {
+      setFormError(err?.message ?? "Signup failed");
     }
   }
 
@@ -175,6 +176,14 @@ export default function SignUpForm() {
         />
       </div>
       <button type="submit">Sign up</button>
+      {formError && (
+        <div
+          role="alert"
+          className="alert"
+        >
+          {formError}
+        </div>
+      )}
     </form>
   );
 }
