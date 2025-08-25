@@ -1,6 +1,7 @@
 import Compressor from "compressorjs";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { signUp, uploadIcon } from "../utils/api";
 
 type Errors = {
   name: boolean;
@@ -38,6 +39,7 @@ export default function SignUpForm() {
       setCompressing(false);
     }
   }
+
   function toFile(blob: Blob, original: File) {
     const base = original.name.replace(/\.[^/.]+$/, "");
     const ext = (blob.type || "image/jpeg").includes("png") ? "png" : "jpeg";
@@ -64,37 +66,19 @@ export default function SignUpForm() {
 
     setErrors({ name: false, email: false, password: false });
 
-    const form = new FormData();
-    if (iconFile) {
-      form.append(
-        "icon",
-        iconFile,
-        iconFile instanceof File ? iconFile.name : "icon.jpg"
-      );
-    }
-
-    const res = await fetch("https://railway.bookreview.techtrain.dev/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ name: name, email: email, password: password }),
-    });
-
-    const data = await res.json();
-    const { token } = data;
-
-    const res2 = await fetch(
-      "https://railway.bookreview.techtrain.dev/uploads",
-      {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: form,
+    try {
+      const token = await signUp({
+        name: name,
+        email: email,
+        password: password,
+      });
+      if (iconFile) {
+        uploadIcon(token, iconFile);
       }
-    );
-
-    navigate("/home");
+      navigate("/home");
+    } catch {
+      ///
+    }
   }
 
   async function compressImage(file: File) {
