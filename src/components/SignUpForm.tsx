@@ -1,7 +1,7 @@
-import Compressor from "compressorjs";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { signUp, uploadIcon } from "../utils/api";
+import { compressToLimit } from "../utils/compressToLimit";
 
 type Errors = {
   name: boolean;
@@ -33,21 +33,11 @@ export default function SignUpForm() {
 
     setCompressing(true);
     try {
-      const blob = await compressImage(file);
-      const fileOut = blob instanceof File ? blob : toFile(blob, file);
+      const fileOut = await compressToLimit(file);
       setIconFile(fileOut);
     } finally {
       setCompressing(false);
     }
-  }
-
-  function toFile(blob: Blob, original: File) {
-    const base = original.name.replace(/\.[^/.]+$/, "");
-    const ext = (blob.type || "image/jpeg").includes("png") ? "png" : "jpeg";
-    return new File([blob], `${base}.${ext}`, {
-      type: blob.type || "image/jpeg",
-      lastModified: Date.now(),
-    });
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -80,24 +70,6 @@ export default function SignUpForm() {
     } catch (err) {
       setFormError(err?.message ?? "Signup failed");
     }
-  }
-
-  async function compressImage(file: File) {
-    return new Promise<Blob>((resolve, reject) => {
-      const masSizeInBytes = 800 * 1024;
-
-      new Compressor(file, {
-        quality: 0.8,
-        convertSize: masSizeInBytes,
-        maxWidth: 512,
-        success(result) {
-          resolve(result);
-        },
-        error(error) {
-          reject(error);
-        },
-      });
-    });
   }
 
   return (
