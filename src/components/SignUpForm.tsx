@@ -3,60 +3,53 @@ import { useNavigate } from "react-router";
 import { signUp, uploadIcon } from "../utils/api";
 import { compressToLimit } from "../utils/compressToLimit";
 
-type Errors = {
-  name: boolean;
-  email: boolean;
-  password: boolean;
-};
+type FieldErrors = Partial<
+  Record<"name" | "email" | "password" | "icon", string>
+>;
 
 export default function SignUpForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<Errors>({
-    name: false,
-    email: false,
-    password: false,
-  });
-  const [formError, setFormError] = useState<string | null>(null);
-  const [iconRaw, setIconRaw] = useState<File | null>(null);
   const [iconFile, setIconFile] = useState<File | null>(null);
-  const [compressing, setCompressing] = useState(false);
+
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const [formError, setFormError] = useState<string | null>(null);
+  const [status, setStatus] = useState<"idle" | "compressing" | "submitting">(
+    "idle"
+  );
 
   const navigate = useNavigate();
 
   async function handleIconChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0] ?? null;
     if (!file) return;
-    setIconRaw(file);
-    setIconFile(null);
-
-    setCompressing(true);
+    setStatus("compressing");
     try {
       const fileOut = await compressToLimit(file);
       setIconFile(fileOut);
     } finally {
-      setCompressing(false);
+      setStatus("idle");
     }
+  }
+
+  function validate() {
+    const fieldErrors: FieldErrors = {};
+    if (!name) fieldErrors.name = "Name is required.";
+    if (!email) fieldErrors.email = "Email is required.";
+    if (!password) fieldErrors.password = "Password is required.";
+
+    setErrors(fieldErrors);
+    return Object.keys(fieldErrors).length === 0;
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    const newErrors = {
-      name: !name,
-      email: !email,
-      password: !password,
-    };
+    if (!validate()) return;
+    if (status === "compressing") return;
 
-    setErrors(newErrors);
-
-    if (newErrors.name || newErrors.email || newErrors.password) {
-      return;
-    }
-
-    setErrors({ name: false, email: false, password: false });
-
+    setStatus("submitting");
     try {
       const token = await signUp({
         name: name,
@@ -68,7 +61,9 @@ export default function SignUpForm() {
       }
       navigate("/home");
     } catch (err) {
-      setFormError(err?.message ?? "Signup failed");
+      if (err instanceof Error) setFormError(err.message ?? "Signup failed");
+    } finally {
+      setStatus("idle");
     }
   }
 
@@ -92,7 +87,7 @@ export default function SignUpForm() {
           className="alert"
           role="alert"
         >
-          Name is required.
+          {errors.name}
         </div>
       )}
       <div>
@@ -113,7 +108,7 @@ export default function SignUpForm() {
           className="alert"
           role="alert"
         >
-          Email is required.
+          {errors.email}
         </div>
       )}
       <div>
@@ -134,7 +129,7 @@ export default function SignUpForm() {
           className="alert"
           role="alert"
         >
-          Password is required.
+          {errors.password}
         </div>
       )}
       <div>
@@ -147,7 +142,16 @@ export default function SignUpForm() {
           onChange={handleIconChange}
         />
       </div>
-      <button type="submit">Sign up</button>
+      <button
+        type="submit"
+        disabled={status !== "idle"}
+      >
+        {status === "submitting"
+          ? "Signing up..."
+          : status === "compressing"
+          ? "compressing..."
+          : "Sign up"}
+      </button>
       {formError && (
         <div
           role="alert"
