@@ -1,9 +1,10 @@
+const BASE_URL = "https://railway.bookreview.techtrain.dev";
 async function signUp(payload: {
   name: string;
   email: string;
   password: string;
 }) {
-  const res = await fetch("https://railway.bookreview.techtrain.dev/users", {
+  const res = await fetch(`${BASE_URL}/users`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -22,7 +23,7 @@ async function signUp(payload: {
 async function uploadIcon(token: string, file: File) {
   const form = new FormData();
   form.append("icon", file);
-  const res = await fetch("https://railway.bookreview.techtrain.dev/uploads", {
+  const res = await fetch(`${BASE_URL}/uploads`, {
     method: "POST",
     headers: { Authorization: `Bearer ${token}` },
     body: form,
@@ -32,4 +33,37 @@ async function uploadIcon(token: string, file: File) {
   }
 }
 
-export { signUp, uploadIcon };
+async function login(email: string, password: string) {
+  const res = await fetch(`${BASE_URL}/signin`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({ email: email, password: password }),
+  });
+  if (!res.ok) {
+    throw new Error(`Login failed (${res.status}): ${res.statusText}`);
+  }
+  const data = await res.json();
+  if (!data.token) throw new Error("Token is missing in login response");
+  return data.token;
+}
+
+async function getUserInfo(token: string) {
+  const res = await fetch(`${BASE_URL}/users`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch user info (${res.status}): ${res.statusText}`
+    );
+  }
+  return res.ok;
+}
+
+export { signUp, uploadIcon, login, getUserInfo };

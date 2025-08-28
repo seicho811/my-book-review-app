@@ -1,53 +1,41 @@
-import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { login, getUserInfo } from "../utils/api";
 
-type Errors = {
-  email: boolean;
-  password: boolean;
+type Inputs = {
+  email: string;
+  password: string;
 };
 
 export default function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<Errors>({
-    email: false,
-    password: false,
-  });
-
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<Inputs>();
   const navigate = useNavigate();
-
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-
-    const newErrors = {
-      email: !email,
-      password: !password,
-    };
-
-    setErrors(newErrors);
-
-    if (newErrors.email || newErrors.password) {
-      return;
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      const token = await login(data.email, data.password);
+      const res = await getUserInfo(token);
+      if (res) navigate("/home");
+    } catch (err) {
+      console.error(err);
+      setError("root", {
+        type: "server",
+        message: "Sign in failed. Please check your credentials.",
+      });
     }
-
-    setErrors({ email: false, password: false });
-    console.log({ email: email, password: password });
-    navigate("/home");
-  }
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <label htmlFor="email">Email</label>
         <input
           id="email"
-          name="email"
-          type="email"
-          autoComplete="email"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
+          {...register("email", { required: "Email is required." })}
         />
       </div>
       {errors.email && (
@@ -55,20 +43,14 @@ export default function LoginForm() {
           className="alert"
           role="alert"
         >
-          Email is required.
+          {errors.email && errors.email.message}
         </div>
       )}
       <div>
         <label htmlFor="password">Password</label>
         <input
           id="password"
-          name="password"
-          type="password"
-          autoComplete="current-password"
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
+          {...register("password", { required: "Password is required." })}
         />
       </div>
       {errors.password && (
@@ -76,10 +58,18 @@ export default function LoginForm() {
           className="alert"
           role="alert"
         >
-          Password is required.
+          {errors.password && errors.password.message}
         </div>
       )}
-      <button type="submit">Login</button>
+      <button type="submit">{isSubmitting ? "Logging in..." : "Login"}</button>
+      {errors.root && (
+        <div
+          className="alert"
+          role="alert"
+        >
+          {errors.root && errors.root.message}
+        </div>
+      )}
     </form>
   );
 }
