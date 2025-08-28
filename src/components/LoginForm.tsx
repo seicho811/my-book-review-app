@@ -24,7 +24,7 @@ export default function LoginForm() {
       console.error(err);
       setError("root", {
         type: "server",
-        message: "Sign in failed. Please check your credentials.",
+        message: "Login failed.",
       });
     }
   };
