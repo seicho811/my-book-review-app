@@ -11,12 +11,10 @@ test("renders form elements", () => {
   );
   const emailField = screen.getByLabelText(/email/i);
   const passwordField = screen.getByLabelText(/password/i);
-  const fileInputField = screen.getByLabelText(/icon/i);
   const submitButton = screen.getByRole("button", { name: /login/i });
 
   expect(emailField).toBeInTheDocument();
   expect(passwordField).toBeInTheDocument();
-  expect(fileInputField).toBeInTheDocument();
   expect(submitButton).toBeInTheDocument();
 });
 

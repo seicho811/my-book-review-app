@@ -42,4 +42,4 @@ async function compressToLimit(input: File, limit = ONE_MB) {
   return currentFile;
 }
 
-export { compressToLimit };
+export { compressToLimit, toFile };

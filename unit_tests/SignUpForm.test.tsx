@@ -13,11 +13,13 @@ test("renders form elements", () => {
   const nameField = screen.getByLabelText(/name/i);
   const emailField = screen.getByLabelText(/email/i);
   const passwordField = screen.getByLabelText(/password/i);
+  const iconField = screen.getByLabelText(/icon/i);
   const submitButton = screen.getByRole("button", { name: /sign up/i });
 
   expect(nameField).toBeInTheDocument();
   expect(emailField).toBeInTheDocument();
   expect(passwordField).toBeInTheDocument();
+  expect(iconField).toBeInTheDocument();
   expect(submitButton).toBeInTheDocument();
 });
 

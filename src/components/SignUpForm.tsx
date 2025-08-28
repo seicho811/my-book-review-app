@@ -138,7 +138,7 @@ export default function SignUpForm() {
           type="file"
           id="iconField"
           name="iconField"
-          accept="image/*"
+          accept=".jpg, .jpeg, .png"
           onChange={handleIconChange}
         />
       </div>
