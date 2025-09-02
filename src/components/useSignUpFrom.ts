@@ -105,6 +105,7 @@ export function useSignUpForm() {
                 ? "Image compression failed."
                 : "Icon upload failed.",
           });
+          return;
         }
       }
       reset();
@@ -113,6 +114,7 @@ export function useSignUpForm() {
       setError("root", { type: "server", message: "Signup failed." });
     }
   };
+
   return {
     register,
     errors,
