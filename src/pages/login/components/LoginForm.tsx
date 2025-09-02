@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { login, getUserInfo } from "../utils/api";
+import { login, getUserInfo } from "../../../utils/api";
 
 type Inputs = {
   email: string;

@@ -7,8 +7,8 @@ import {
   type RegisterOptions,
   type SubmitHandler,
 } from "react-hook-form";
-import { signUp, uploadIcon } from "../utils/api";
-import { compressToLimit } from "../utils/compressToLimit";
+import { signUp, uploadIcon } from "../../../utils/api";
+import { compressToLimit } from "../../../utils/compressToLimit";
 
 export type Inputs = {
   name: string;

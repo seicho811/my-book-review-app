@@ -1,5 +1,5 @@
 import { render, screen, within } from "@testing-library/react";
-import Header from "../src/components/Header";
+import Header from "../../src/components/Header";
 
 test("renders semantic <Header />", () => {
   render(<Header />);

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
-import LoginForm from "../src/components/LoginForm";
+import LoginForm from "../../src/pages/login/components/LoginForm";
 import userEvent from "@testing-library/user-event";
 
 test("renders form elements", () => {

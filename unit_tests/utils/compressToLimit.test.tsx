@@ -1,12 +1,12 @@
 vi.mock("compressorjs", async () => {
-  return await import("./__mocks__/compressorjs");
+  return await import("../__mocks__/compressorjs");
 });
 import {
   __pushCompressedSizes,
   __clearCompressedSizes,
-} from "./__mocks__/compressorjs";
+} from "../__mocks__/compressorjs";
 
-import { compressToLimit, toFile } from "../src/utils/compressToLimit";
+import { compressToLimit, toFile } from "../../src/utils/compressToLimit";
 
 const MB = 1024 * 1024;
 

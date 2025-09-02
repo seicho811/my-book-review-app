@@ -7,18 +7,18 @@ vi.mock("react-router", async () => {
   return { ...actual, useNavigate: () => navigateMock };
 });
 
-vi.mock("../src/utils/api", () => ({
+vi.mock("../../src/utils/api", () => ({
   signUp: vi.fn(),
   uploadIcon: vi.fn(),
 }));
 
-vi.mock("../src/utils/compressToLimit", () => ({
+vi.mock("../../src/utils/compressToLimit", () => ({
   compressToLimit: vi.fn(),
 }));
 
-import { signUp, uploadIcon } from "../src/utils/api";
-import { compressToLimit } from "../src/utils/compressToLimit";
-import { useSignUpForm } from "../src/components/useSignUpFrom";
+import { signUp, uploadIcon } from "../../src/utils/api";
+import { compressToLimit } from "../../src/utils/compressToLimit";
+import { useSignUpForm } from "../../src/pages/signup/components/useSignUpFrom";
 
 function Harness() {
   const { register, errors, onSubmit, busy, submitLabel, iconRules } =
