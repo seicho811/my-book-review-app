@@ -1,8 +1,9 @@
 import { Routes, Route } from "react-router";
 import Layout from "./Layout";
+import "./App.css";
 import LoginPage from "./pages/login/LoginPage";
 import Home from "./pages/home/Home";
-import SignUpForm from "./pages/signup/components/SignUpForm";
+import SignUpPage from "./pages/signup/SignUpPage";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
           />
           <Route
             path="/signup"
-            element={<SignUpForm />}
+            element={<SignUpPage />}
           />
           <Route
             path="/home"
