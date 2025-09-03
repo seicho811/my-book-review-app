@@ -1,0 +1,25 @@
+.base {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.small {
+  font-size: 12px;
+  padding: 6px 10px;
+}
+
+.medium {
+  font-size: 14px;
+  padding: 8px 12px;
+}
+
+.large {
+  font-size: 16px;
+  padding: 10px 14px;
+}
+
+.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

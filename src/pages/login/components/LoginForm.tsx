@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { login, getUserInfo } from "../../../utils/api";
+import Button from "../../../components/Button/Button";
+import style from "../../../pages/FormView.module.css";
 
 type Inputs = {
   email: string;
@@ -30,41 +32,61 @@ export default function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="email">Email</label>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className={style.form}
+    >
+      <div className={style.field}>
+        <label
+          htmlFor="email"
+          className={style.label}
+        >
+          Email
+        </label>
         <input
           id="email"
+          className={style.input}
           {...register("email", { required: "Email is required." })}
         />
       </div>
       {errors.email && (
         <div
-          className="alert"
+          className={style.alert}
           role="alert"
         >
           {errors.email && errors.email.message}
         </div>
       )}
-      <div>
-        <label htmlFor="password">Password</label>
+      <div className={style.field}>
+        <label
+          htmlFor="password"
+          className={style.label}
+        >
+          Password
+        </label>
         <input
           id="password"
+          className={style.input}
           {...register("password", { required: "Password is required." })}
         />
       </div>
       {errors.password && (
         <div
-          className="alert"
+          className={style.alert}
           role="alert"
         >
           {errors.password && errors.password.message}
         </div>
       )}
-      <button type="submit">{isSubmitting ? "Logging in..." : "Login"}</button>
+      <Button
+        type="submit"
+        isDisabled={isSubmitting}
+      >
+        {isSubmitting ? "Logging in..." : "Login"}
+      </Button>
       {errors.root && (
         <div
-          className="alert"
+          className={style.alert}
           role="alert"
         >
           {errors.root && errors.root.message}

@@ -1,4 +1,6 @@
 import { type UseSignUpReturn } from "./useSignUpFrom";
+import Button from "../../../components/Button/Button";
+import style from "../../FormView.module.css";
 
 export default function SignUpFormView({
   register,
@@ -9,30 +11,45 @@ export default function SignUpFormView({
   iconRules,
 }: UseSignUpReturn) {
   return (
-    <form onSubmit={onSubmit}>
-      <div>
-        <label htmlFor="name">User name</label>
+    <form
+      onSubmit={onSubmit}
+      className={style.form}
+    >
+      <div className={style.field}>
+        <label
+          htmlFor="name"
+          className={style.label}
+        >
+          User name
+        </label>
         <input
           id="name"
           type="text"
           autoComplete="username"
+          className={style.input}
           {...register("name", { required: "Name is required." })}
         />
       </div>
       {errors.name && typeof errors.name.message === "string" && (
         <p
-          className="alert"
+          className={style.alert}
           role="alert"
         >
           {errors.name.message}
         </p>
       )}
-      <div>
-        <label htmlFor="email">Email</label>
+      <div className={style.field}>
+        <label
+          htmlFor="email"
+          className={style.label}
+        >
+          Email
+        </label>
         <input
           id="email"
           type="email"
           autoComplete="email"
+          className={style.input}
           {...register("email", {
             required: "Email is required.",
             pattern: {
@@ -44,31 +61,42 @@ export default function SignUpFormView({
       </div>
       {errors.email && typeof errors.email.message === "string" && (
         <p
-          className="alert"
+          className={style.alert}
           role="alert"
         >
           {errors.email.message}
         </p>
       )}
-      <div>
-        <label htmlFor="password">Password</label>
+      <div className={style.field}>
+        <label
+          htmlFor="password"
+          className={style.label}
+        >
+          Password
+        </label>
         <input
           id="password"
           type="password"
           autoComplete="new-password"
+          className={style.input}
           {...register("password", { required: "Password is required." })}
         />
       </div>
       {errors.password && typeof errors.password.message === "string" && (
         <p
-          className="alert"
+          className={style.alert}
           role="alert"
         >
           {errors.password.message}
         </p>
       )}
-      <div>
-        <label htmlFor="icon">Icon</label>
+      <div className={style.field}>
+        <label
+          htmlFor="icon"
+          className={style.label}
+        >
+          Icon
+        </label>
         <input
           type="file"
           id="icon"
@@ -84,16 +112,16 @@ export default function SignUpFormView({
           {errors.icon.message}
         </p>
       )}
-      <button
+      <Button
         type="submit"
-        disabled={busy}
+        isDisabled={busy}
       >
         {submitLabel}
-      </button>
+      </Button>
       {errors.root && (
         <div
           role="alert"
-          className="alert"
+          className={style.alert}
         >
           {errors.root.message}
         </div>

@@ -1,4 +1,4 @@
-import Footer from "../../src/components/Footer";
+import Footer from "../../src/components/Footer/Footer";
 import { render, screen, within } from "@testing-library/react";
 
 test("renders semantic <footer>", () => {
