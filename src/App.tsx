@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router";
 import Layout from "./Layout";
 import "./App.css";
 import LoginPage from "./pages/login/LoginPage";
-import Home from "./pages/home/Home";
+import HomePage from "./pages/home/HomePage";
 import SignUpPage from "./pages/signup/SignUpPage";
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
           />
           <Route
             path="/home"
-            element={<Home />}
+            element={<HomePage />}
           />
         </Route>
       </Routes>

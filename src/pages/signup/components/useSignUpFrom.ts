@@ -109,6 +109,7 @@ export function useSignUpForm() {
         }
       }
       reset();
+      localStorage.setItem("token", token);
       navigate("/home");
     } catch {
       setError("root", { type: "server", message: "Signup failed." });

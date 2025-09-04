@@ -21,6 +21,7 @@ export default function LoginForm() {
     try {
       const token = await login(data.email, data.password);
       const res = await getUserInfo(token);
+      localStorage.setItem("token", token);
       if (res) navigate("/home");
     } catch (err) {
       console.error(err);

@@ -66,4 +66,18 @@ async function getUserInfo(token: string) {
   return res.ok;
 }
 
-export { signUp, uploadIcon, login, getUserInfo };
+async function getBooks(token: string) {
+  const res = await fetch(`${BASE_URL}/books`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to fetch books (${res.status}): ${res.statusText}`);
+  }
+
+  return res.json();
+}
+export { signUp, uploadIcon, login, getUserInfo, getBooks };

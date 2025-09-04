@@ -6,11 +6,16 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
   padding-bottom: 8px;
   margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .header h2 {
@@ -25,9 +30,15 @@
 .content {
   padding-top: 8px;
   padding-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .footer {
   padding-top: 8px;
   margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
