@@ -1,5 +1,5 @@
 import { useState, createContext, useContext } from "react";
-import { login as loginApi, getUserInfo } from "../utils/api";
+import { login as loginApi, getUserInfo, signUp } from "../utils/api";
 
 type User = {
   name: string;
@@ -11,6 +11,11 @@ type AuthContextType = {
   token: string | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  signUpAndLogin: (
+    name: string,
+    email: string,
+    password: string
+  ) => Promise<void>;
   setUser: (user: User) => void;
 };
 
@@ -40,8 +45,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem("token");
   }
 
+  async function signUpAndLogin(name: string, email: string, password: string) {
+    try {
+      const token = await signUp({ name, email, password });
+      const userInfo = await getUserInfo(token);
+      setToken(token);
+      setUser(userInfo);
+      localStorage.setItem("token", token);
+    } catch {
+      throw new Error("Sign up failed");
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, setUser }}>
+    <AuthContext.Provider
+      value={{ user, token, login, logout, signUpAndLogin, setUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

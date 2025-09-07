@@ -7,8 +7,9 @@ import {
   type RegisterOptions,
   type SubmitHandler,
 } from "react-hook-form";
-import { signUp, uploadIcon } from "../../../utils/api";
+import { uploadIcon } from "../../../utils/api";
 import { compressToLimit } from "../../../utils/compressToLimit";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export type Inputs = {
   name: string;
@@ -30,6 +31,7 @@ export type UseSignUpReturn = {
 
 export function useSignUpForm() {
   const navigate = useNavigate();
+  const { signUpAndLogin } = useAuth();
   const {
     register,
     handleSubmit,
@@ -88,12 +90,6 @@ export function useSignUpForm() {
 
   const onValid: SubmitHandler<Inputs> = async (data) => {
     try {
-      const token = await signUp({
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      });
-
       const pickedIcon = data.icon?.[0];
       if (pickedIcon) {
         const { ok, step } = await compressAndUploadIcon(pickedIcon, token);
@@ -109,7 +105,7 @@ export function useSignUpForm() {
         }
       }
       reset();
-      localStorage.setItem("token", token);
+      await signUpAndLogin(data.name, data.email, data.password);
       navigate("/home");
     } catch {
       setError("root", { type: "server", message: "Signup failed." });

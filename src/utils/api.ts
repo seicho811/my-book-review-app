@@ -1,4 +1,5 @@
 const BASE_URL = "https://railway.bookreview.techtrain.dev";
+
 async function signUp(payload: {
   name: string;
   email: string;
