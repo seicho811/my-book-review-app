@@ -5,6 +5,7 @@ import LoginPage from "./pages/login/LoginPage";
 import HomePage from "./pages/home/HomePage";
 import SignUpPage from "./pages/signup/SignUpPage";
 import { AuthProvider } from "./contexts/AuthContext";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -23,10 +24,12 @@ function App() {
               path="/signup"
               element={<SignUpPage />}
             />
-            <Route
-              path="/home"
-              element={<HomePage />}
-            />
+            <Route element={<PrivateRoute />}>
+              <Route
+                path="/home"
+                element={<HomePage />}
+              />
+            </Route>
           </Route>
         </Routes>
       </AuthProvider>
