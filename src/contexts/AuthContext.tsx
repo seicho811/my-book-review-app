@@ -1,5 +1,6 @@
 import { useState, createContext, useContext } from "react";
 import { login as loginApi, getUserInfo, signUp } from "../utils/api";
+import { useNavigate } from "react-router";
 
 type User = {
   name: string;
@@ -17,6 +18,7 @@ type AuthContextType = {
     password: string
   ) => Promise<void>;
   setUser: (user: User) => void;
+  clearAuthData: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -26,6 +28,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(() =>
     localStorage.getItem("token")
   );
+
+  const navigate = useNavigate();
 
   async function login(email: string, password: string) {
     try {
@@ -40,6 +44,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   function logout() {
+    navigate("/logout");
+  }
+
+  function clearAuthData() {
     setToken(null);
     setUser(null);
     localStorage.removeItem("token");
@@ -59,7 +67,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, token, login, logout, signUpAndLogin, setUser }}
+      value={{
+        user,
+        token,
+        login,
+        logout,
+        signUpAndLogin,
+        setUser,
+        clearAuthData,
+      }}
     >
       {children}
     </AuthContext.Provider>

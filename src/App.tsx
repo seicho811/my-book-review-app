@@ -4,6 +4,7 @@ import "./App.css";
 import LoginPage from "./pages/login/LoginPage";
 import HomePage from "./pages/home/HomePage";
 import SignUpPage from "./pages/signup/SignUpPage";
+import LogoutPage from "./pages/LogoutPage";
 import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -23,6 +24,10 @@ function App() {
             <Route
               path="/signup"
               element={<SignUpPage />}
+            />
+            <Route
+              path="/logout"
+              element={<LogoutPage />}
             />
             <Route element={<PrivateRoute />}>
               <Route

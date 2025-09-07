@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 export default function PrivateRoute() {
   const { token } = useAuth();
   const location = useLocation();
-  if (!token) {
+  if (!token && location.pathname !== "/home") {
     const next = encodeURIComponent(location.pathname + location.search);
     return (
       <Navigate
