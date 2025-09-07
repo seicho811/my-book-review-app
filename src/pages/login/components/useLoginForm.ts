@@ -5,7 +5,7 @@ import {
   type SubmitHandler,
   type UseFormRegister,
 } from "react-hook-form";
-import { login, getUserInfo } from "../../../utils/api";
+import { useAuth } from "../../../contexts/AuthContext";
 
 type Inputs = {
   email: string;
@@ -27,14 +27,12 @@ export default function useLoginForm() {
     formState: { errors, isSubmitting },
   } = useForm<Inputs>();
   const navigate = useNavigate();
+  const { login } = useAuth();
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      const token = await login(data.email, data.password);
-      const res = await getUserInfo(token);
-      localStorage.setItem("token", token);
-      if (res) navigate("/home");
-    } catch (err) {
-      console.error(err);
+      await login(data.email, data.password);
+      navigate("/home");
+    } catch {
       setError("root", {
         type: "server",
         message: "Login failed.",

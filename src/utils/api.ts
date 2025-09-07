@@ -50,7 +50,9 @@ async function login(email: string, password: string) {
   return data.token;
 }
 
-async function getUserInfo(token: string) {
+async function getUserInfo(
+  token: string
+): Promise<{ name: string; iconUrl?: string }> {
   const res = await fetch(`${BASE_URL}/users`, {
     method: "GET",
     headers: {
@@ -63,7 +65,7 @@ async function getUserInfo(token: string) {
       `Failed to fetch user info (${res.status}): ${res.statusText}`
     );
   }
-  return res.ok;
+  return res.json();
 }
 
 async function getBooks(token: string) {
