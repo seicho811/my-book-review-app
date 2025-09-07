@@ -14,6 +14,7 @@ export default function SignUpFormView({
     <form
       onSubmit={onSubmit}
       className={style.form}
+      noValidate
     >
       <div className={style.field}>
         <label
