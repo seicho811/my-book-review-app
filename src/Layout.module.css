@@ -2,5 +2,16 @@
   display: grid;
   grid-template-rows: auto 1fr auto;
   height: 100vh;
-  width: 100vw;
+  max-width: 100%;
+}
+
+.spacer {
+  height: 16px; /* Adjust the height as needed */
+}
+
+.content {
+  padding: 16px; /* Optional: Add some padding around the content */
+  overflow-y: auto; /* Optional: Enable vertical scrolling if content overflows */
+  width: 1280px;
+  margin: 0 auto;
 }

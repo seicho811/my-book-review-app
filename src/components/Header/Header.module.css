@@ -1,6 +1,19 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+}
+
 .heading {
   text-align: center;
   padding: 1rem;
   margin: 0;
-  border-bottom: 1px solid #eee;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding-right: 1rem;
 }

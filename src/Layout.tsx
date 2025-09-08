@@ -8,7 +8,9 @@ export default function Layout() {
     <>
       <div className={style.layout}>
         <Header />
-        <Outlet />
+        <div className={style.content}>
+          <Outlet />
+        </div>
         <Footer />
       </div>
     </>
