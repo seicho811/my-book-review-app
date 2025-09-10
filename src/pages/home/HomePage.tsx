@@ -1,32 +1,39 @@
-import { useState, useEffect } from "react";
-import { getBooks } from "../../utils/api";
+import { useEffect, useMemo, useCallback } from "react";
 import { Card, CardHeader, CardContent } from "../../components/Card/Card";
 import style from "./HomePage.module.css";
+import Pagination from "../../components/Pagination";
+import useBooks from "./components/useBooks";
+import { useSearchParams } from "react-router";
 
-type Book = {
-  id: string;
-  title: string;
-  url: string;
-  detail: string;
-  review: string;
-  reviewer: string;
-  isMine: boolean;
-};
+function parsePageParams(raw: string | null): number {
+  const n = Number.parseInt(raw ?? "", 10);
+  return Number.isFinite(n) && n > 0 ? n : 1;
+}
 
 export default function HomePage() {
-  const [books, setBooks] = useState<Book[]>([]);
+  const [sp, setSp] = useSearchParams();
+  const page = useMemo(() => parsePageParams(sp.get("page")), [sp]);
+  const { books, fetchBooks, hasNext } = useBooks();
 
   useEffect(() => {
-    const token: string | null = localStorage.getItem("token");
-    if (!token) {
-      console.log("Token not found");
-      return;
-    }
-    const books = getBooks(token);
-    books.then((res) => {
-      setBooks(res);
-    });
-  }, []);
+    fetchBooks(page);
+  }, [page, fetchBooks]);
+
+  const onPageChange = useCallback(
+    (nextPage: number) => {
+      setSp(
+        (prev) => {
+          const p = new URLSearchParams(prev);
+          if (nextPage <= 1) p.delete("page");
+          else p.set("page", String(nextPage));
+          return p;
+        },
+        { replace: false }
+      );
+    },
+    [setSp]
+  );
+
   return (
     <>
       <div className={style.books_container}>
@@ -40,9 +47,6 @@ export default function HomePage() {
                 <h2>{book.title}</h2>
               </CardHeader>
               <CardContent>
-                <p className={`${style.book_detail} ${style.flex_item}`}>
-                  {book.detail}
-                </p>
                 <p className={`${style.book_review} ${style.flex_item}`}>
                   {book.review}
                 </p>
@@ -54,6 +58,11 @@ export default function HomePage() {
           );
         })}
       </div>
+      <Pagination
+        page={page}
+        hasNext={hasNext}
+        onPageChange={onPageChange}
+      />
     </>
   );
 }

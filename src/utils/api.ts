@@ -69,8 +69,8 @@ async function getUserInfo(
   return res.json();
 }
 
-async function getBooks(token: string) {
-  const res = await fetch(`${BASE_URL}/books`, {
+async function getBooks(token: string, offset = 0) {
+  const res = await fetch(`${BASE_URL}/books?offset=${offset}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
