@@ -3,6 +3,19 @@ import { MemoryRouter } from "react-router";
 import LoginForm from "../../src/pages/login/components/LoginForm";
 import userEvent from "@testing-library/user-event";
 
+// Single source of truth for mocked login
+const loginMock = vi.fn();
+vi.mock("../../src/contexts/AuthContext", () => ({
+  useAuth: () => ({
+    login: loginMock,
+  }),
+}));
+
+beforeEach(() => {
+  vi.clearAllMocks();
+  loginMock.mockResolvedValue(undefined);
+});
+
 test("renders form elements", () => {
   render(
     <MemoryRouter>
@@ -36,7 +49,7 @@ test("show error message when clicking login button without any value on passwor
   expect(errorMsg).toHaveTextContent(/password is required./i);
 });
 
-test("show error message when clicking login button without any value on password field", async () => {
+test("show error message when clicking login button without any value on email field", async () => {
   render(
     <MemoryRouter>
       <LoginForm />
@@ -54,12 +67,8 @@ test("show error message when clicking login button without any value on passwor
 
   expect(errorMsg).toHaveTextContent(/email is required./i);
 });
-
-vi.mock("../utils/api", () => ({
-  login: vi.fn().mockRejectedValue(new Error("Login failed")),
-}));
-
 test("shows error message on login failure", async () => {
+  loginMock.mockRejectedValueOnce(new Error("Login failed"));
   render(
     <MemoryRouter>
       <LoginForm />

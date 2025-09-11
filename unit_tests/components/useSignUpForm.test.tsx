@@ -15,6 +15,11 @@ vi.mock("../../src/utils/api", () => ({
 vi.mock("../../src/utils/compressToLimit", () => ({
   compressToLimit: vi.fn(),
 }));
+const signUpAndLoginMock = vi.fn();
+
+vi.mock("../../src/contexts/AuthContext", () => ({
+  useAuth: () => ({ signUpAndLogin: signUpAndLoginMock, token: "t-123" }),
+}));
 
 import { signUp, uploadIcon } from "../../src/utils/api";
 import { compressToLimit } from "../../src/utils/compressToLimit";
@@ -85,6 +90,8 @@ function deffered<T = any>() {
   return { promise, resolve, reject };
 }
 
+const renderTarget = <Harness />;
+
 beforeEach(() => {
   vi.clearAllMocks();
 });
@@ -92,8 +99,8 @@ beforeEach(() => {
 describe("useSignUpForm", () => {
   it("should sign up a user without icon upload and navigate to /home", async () => {
     const def = deffered<string>();
-    (signUp as vi.Mock).mockReturnValueOnce(def.promise);
-    render(<Harness />);
+    (signUpAndLoginMock as vi.Mock).mockReturnValueOnce(def.promise);
+    render(renderTarget);
 
     const u = userEvent.setup();
     await u.type(screen.getByLabelText(/email/i), "test@example.com");
@@ -113,13 +120,13 @@ describe("useSignUpForm", () => {
   });
 
   it("should sign up a user with icon upload and navigate to /home", async () => {
-    (signUp as vi.Mock).mockResolvedValueOnce("t-123");
+    (signUpAndLoginMock as vi.Mock).mockResolvedValueOnce("t-123");
     (compressToLimit as vi.Mock).mockResolvedValueOnce(
       fileOf("image/jpeg", 8, "compressed.jpeg")
     );
     (uploadIcon as vi.Mock).mockResolvedValueOnce(undefined);
 
-    render(<Harness />);
+    render(renderTarget);
     const user = userEvent.setup();
     await user.type(screen.getByLabelText(/name/i), "tomo");
     await user.type(screen.getByLabelText(/email/i), "test@example.com");
@@ -135,7 +142,7 @@ describe("useSignUpForm", () => {
   });
 
   it("should show validation error for invalid MIME type", async () => {
-    render(<Harness />);
+    render(renderTarget);
     const u = userEvent.setup();
     await u.type(screen.getByLabelText(/name/i), "tomo");
     await u.type(screen.getByLabelText(/email/i), "test@example.com");
@@ -155,11 +162,11 @@ describe("useSignUpForm", () => {
   });
 
   it("should show compression error for oversized files without navigating /home", async () => {
-    (signUp as vi.Mock).mockResolvedValueOnce("t-123");
+    (signUpAndLoginMock as vi.Mock).mockResolvedValueOnce("t-123");
     (compressToLimit as vi.Mock).mockRejectedValueOnce(
       new Error("Image compression failed")
     );
-    render(<Harness />);
+    render(renderTarget);
     const u = userEvent.setup();
     await u.type(screen.getByLabelText(/name/i), "tomo");
     await u.type(screen.getByLabelText(/email/i), "test@example.com");
@@ -175,8 +182,10 @@ describe("useSignUpForm", () => {
   });
 
   it("should show root error message withoug navigating /home", async () => {
-    (signUp as vi.Mock).mockRejectedValueOnce(new Error("Server is down"));
-    render(<Harness />);
+    (signUpAndLoginMock as vi.Mock).mockRejectedValueOnce(
+      new Error("Server is down")
+    );
+    render(renderTarget);
     const u = userEvent.setup();
     await u.type(screen.getByLabelText(/name/i), "tomo");
     await u.type(screen.getByLabelText(/email/i), "test@example.com");

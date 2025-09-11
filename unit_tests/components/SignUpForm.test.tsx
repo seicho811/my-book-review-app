@@ -3,6 +3,11 @@ import { MemoryRouter } from "react-router";
 import SignUpForm from "../../src/pages/signup/components/SignUpForm";
 // import userEvent from "@testing-library/user-event";
 
+const signUpAndLoginMock = vi.fn();
+vi.mock("../../src/contexts/AuthContext", () => ({
+  useAuth: () => ({ signUpAndLogin: signUpAndLoginMock }),
+}));
+
 test("renders form elements", () => {
   render(
     <MemoryRouter>

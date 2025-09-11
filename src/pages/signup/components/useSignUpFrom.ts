@@ -31,7 +31,7 @@ export type UseSignUpReturn = {
 
 export function useSignUpForm() {
   const navigate = useNavigate();
-  const { signUpAndLogin } = useAuth();
+  const { signUpAndLogin, token } = useAuth();
   const {
     register,
     handleSubmit,
@@ -90,8 +90,13 @@ export function useSignUpForm() {
 
   const onValid: SubmitHandler<Inputs> = async (data) => {
     try {
+      try {
+        await signUpAndLogin(data.name, data.email, data.password);
+      } catch {
+        throw new Error("sign up and login failed");
+      }
       const pickedIcon = data.icon?.[0];
-      if (pickedIcon) {
+      if (pickedIcon && token) {
         const { ok, step } = await compressAndUploadIcon(pickedIcon, token);
         if (!ok) {
           setError("icon", {
@@ -105,7 +110,6 @@ export function useSignUpForm() {
         }
       }
       reset();
-      await signUpAndLogin(data.name, data.email, data.password);
       navigate("/home");
     } catch {
       setError("root", { type: "server", message: "Signup failed." });
