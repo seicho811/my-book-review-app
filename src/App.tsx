@@ -7,6 +7,7 @@ import SignUpPage from "./pages/signup/SignUpPage";
 import LogoutPage from "./pages/LogoutPage";
 import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
+import ProfilePage from "./pages/profile/ProfilePage";
 
 function App() {
   return (
@@ -33,6 +34,10 @@ function App() {
               <Route
                 path="/home"
                 element={<HomePage />}
+              />
+              <Route
+                path="/profile"
+                element={<ProfilePage />}
               />
             </Route>
           </Route>

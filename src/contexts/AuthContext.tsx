@@ -2,7 +2,7 @@ import { useState, createContext, useContext, useEffect } from "react";
 import { login as loginApi, getUserInfo, signUp } from "../utils/api";
 import { useNavigate } from "react-router";
 
-type User = {
+export type User = {
   name: string;
   iconUrl?: string;
 };

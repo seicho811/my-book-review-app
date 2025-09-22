@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter, Route, Routes } from "react-router";
+import { MemoryRouter, Route, Routes, useLocation } from "react-router";
 import PrivateRoute from "../../src/components/PrivateRoute";
 
 let mockToken: string | null = null;
@@ -18,10 +18,15 @@ function AppRoutes() {
       </Route>
       <Route
         path="/login"
-        element={<div>login page</div>}
+        element={<LocationEcho />}
       />
     </Routes>
   );
+}
+
+function LocationEcho() {
+  const loc = useLocation();
+  return <div data-testid="loc">{loc.pathname + loc.search}</div>;
 }
 
 beforeEach(() => {
@@ -34,10 +39,8 @@ test("redirects to /login with next when not authenticated", () => {
       <AppRoutes />
     </MemoryRouter>
   );
-  expect(screen.getByText(/login page/i)).toBeInTheDocument();
-  expect(window.location.pathname + window.location.search).toMatch(
-    /^\/login\?next=%2Fhome/
-  );
+  const echoed = screen.getByTestId("loc");
+  expect(echoed.textContent).toMatch(/^\/login\?next=%2Fhome/);
 });
 
 test("renders protected routes", () => {

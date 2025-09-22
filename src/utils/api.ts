@@ -69,6 +69,23 @@ async function getUserInfo(
   return res.json();
 }
 
+async function updateUserInfo(token: string, name: string) {
+  const res = await fetch(`${BASE_URL}/users`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ name: name }),
+  });
+  if (!res.ok) {
+    throw new Error(
+      `Failed to update user info (${res.status}): ${res.statusText}`
+    );
+  }
+  return res.json();
+}
+
 async function getBooks(token: string, offset = 0) {
   const res = await fetch(`${BASE_URL}/books?offset=${offset}`, {
     method: "GET",
@@ -83,4 +100,5 @@ async function getBooks(token: string, offset = 0) {
 
   return res.json();
 }
-export { signUp, uploadIcon, login, getUserInfo, getBooks };
+
+export { signUp, uploadIcon, login, getUserInfo, updateUserInfo, getBooks };

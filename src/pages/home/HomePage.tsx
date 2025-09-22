@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useCallback } from "react";
 import { Card, CardHeader, CardContent } from "../../components/Card/Card";
 import style from "./HomePage.module.css";
-import Pagination from "../../components/Pagination";
+import Pagination from "../../components/Pagination/Pagination";
 import useBooks from "./components/useBooks";
 import { useSearchParams } from "react-router";
 
