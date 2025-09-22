@@ -1,31 +1,25 @@
 import SignUpForm from "./components/SignUpForm";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardFooter,
-} from "../../components/Card/Card";
 import { Link } from "react-router";
-import style from "../Page.module.css";
+import style from "./SignUpPage.module.css";
 
 export default function SignUpPage() {
   return (
     <>
       <main className={style.page}>
-        <Card>
-          <CardHeader>
+        <div className={style.card}>
+          <div className={style.header}>
             <h2>Sign Up</h2>
             <p>Create your account to get started with our service.</p>
-          </CardHeader>
-          <CardContent>
+          </div>
+          <div className="content">
             <SignUpForm />
-          </CardContent>
-          <CardFooter>
+          </div>
+          <div className="footer">
             <p>
               Already have an account? <Link to="/login">Log in</Link>
             </p>
-          </CardFooter>
-        </Card>
+          </div>
+        </div>
       </main>
     </>
   );
