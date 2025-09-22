@@ -31,6 +31,10 @@
 .header h2 {
   margin: 0;
   font-size: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .content {
@@ -43,6 +47,11 @@
 }
 
 .book_review {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 9;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .book_reviewer {

@@ -10,7 +10,7 @@ export default function Header() {
     <header className={style.header}>
       <h1 className={style.heading}>Book Review</h1>
       <div className={style.userInfo}>
-        {user && <div>{user.name}</div>}
+        {user && <span>{user.name}</span>}
         {user && (
           <button
             className="icon"
