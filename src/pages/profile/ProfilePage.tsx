@@ -3,7 +3,7 @@ import ProfileForm from "./components/ProfileForm";
 export default function ProfilePage() {
   return (
     <>
-      <div>Profile</div>
+      <h2>Profile</h2>
       <ProfileForm />
     </>
   );

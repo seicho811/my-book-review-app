@@ -7,7 +7,7 @@ type Inputs = {
 };
 
 export function useProfileForm() {
-  const { user, token, setUser } = useAuth();
+  const { user, token, saveUserInfo } = useAuth();
   const {
     register,
     handleSubmit,
@@ -21,7 +21,7 @@ export function useProfileForm() {
     } catch (err) {
       setError("root", err);
     }
-    setUser({ name: data.name });
+    saveUserInfo(data);
   };
 
   return {
