@@ -101,4 +101,35 @@ async function getBooks(token: string, offset = 0) {
   return res.json();
 }
 
-export { signUp, uploadIcon, login, getUserInfo, updateUserInfo, getBooks };
+type Book = {
+  title: string;
+  url: string;
+  detail: string;
+  review: string;
+};
+
+async function postNewBook(token: string, book: Book) {
+  const res = await fetch(`${BASE_URL}/books`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(book),
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to post a book(${res.status}): ${res.statusText}`);
+  }
+
+  return res.json();
+}
+
+export {
+  signUp,
+  uploadIcon,
+  login,
+  getUserInfo,
+  updateUserInfo,
+  getBooks,
+  postNewBook,
+};

@@ -8,6 +8,7 @@ import LogoutPage from "./pages/LogoutPage";
 import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import ProfilePage from "./pages/profile/ProfilePage";
+import NewPostPage from "./pages/newPost/NewPostPage";
 
 function App() {
   return (
@@ -38,6 +39,10 @@ function App() {
               <Route
                 path="/profile"
                 element={<ProfilePage />}
+              />
+              <Route
+                path="/new"
+                element={<NewPostPage />}
               />
             </Route>
           </Route>
