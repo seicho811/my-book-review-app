@@ -19,6 +19,7 @@ type AuthContextType = {
   ) => Promise<void>;
   setUser: (user: User) => void;
   clearAuthData: () => void;
+  saveUserInfo: (user: User) => void;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -33,21 +34,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
       // Try to restore user from localStorage first
-      const storedUserName = localStorage.getItem("userName");
-      if (storedUserName) {
-        setUser({ name: storedUserName });
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        const currentUser = JSON.parse(storedUser);
+        setUser({ name: currentUser.name });
       } else {
         // If user info is not in localStorage, fetch it from the API
         getUserInfo(storedToken)
           .then((userInfo) => {
             setUser(userInfo);
-            localStorage.setItem("userName", userInfo.name);
+            localStorage.setItem("user", JSON.stringify(userInfo));
           })
           .catch(() => {
             // If fetching user info fails, clear auth data
             setToken(null);
             localStorage.removeItem("token");
-            localStorage.removeItem("userName");
+            localStorage.removeItem("user");
           });
       }
     }
@@ -76,7 +78,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setToken(null);
     setUser(null);
     localStorage.removeItem("token");
-    localStorage.removeItem("userName");
+    localStorage.removeItem("user");
   }
 
   async function signUpAndLogin(name: string, email: string, password: string) {
@@ -92,6 +94,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  function saveUserInfo(user: User) {
+    setUser(user);
+    localStorage.setItem("user", JSON.stringify(user));
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -102,6 +109,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signUpAndLogin,
         setUser,
         clearAuthData,
+        saveUserInfo,
       }}
     >
       {children}

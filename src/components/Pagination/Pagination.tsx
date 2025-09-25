@@ -1,4 +1,4 @@
-import "./Pagination.module.css";
+import style from "./Pagination.module.css";
 type PaginationProps = {
   page: number;
   hasNext: boolean;
@@ -12,11 +12,12 @@ export default function Pagination({
 }: PaginationProps) {
   const canPrevious = page > 1;
   return (
-    <nav>
+    <nav className={style.container}>
       <button
         type="button"
         aria-label="First page"
         disabled={!canPrevious}
+        className={style.button}
         onClick={() => {
           onPageChange(1);
         }}
@@ -27,6 +28,7 @@ export default function Pagination({
         type="button"
         aria-label="Previous page"
         disabled={!canPrevious}
+        className={style.button}
         onClick={() => {
           onPageChange(page - 1);
         }}
@@ -38,6 +40,7 @@ export default function Pagination({
         type="button"
         aria-label="Next page"
         disabled={!hasNext}
+        className={style.button}
         onClick={() => {
           onPageChange(page + 1);
         }}

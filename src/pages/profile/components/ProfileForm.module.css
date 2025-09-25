@@ -1,0 +1,22 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+
+.label {
+  font-weight: 600;
+}
+
+.input {
+  line-height: 30px;
+  font-size: 20px;
+  padding: 4px;
+  border: 1px solid #e9e8ee;
+  border-radius: 4px;
+}
+
+.button {
+  margin-top: auto;
+}
