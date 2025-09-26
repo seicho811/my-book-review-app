@@ -1,6 +1,6 @@
 import style from "./Header.module.css";
 import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import PencilIcon from "../Icons/Pencil";
 
 export default function Header() {
@@ -8,7 +8,12 @@ export default function Header() {
   const navigate = useNavigate();
   return (
     <header className={style.header}>
-      <h1 className={style.heading}>Book Review</h1>
+      <Link
+        to="home"
+        className={style.logo}
+      >
+        <h1 className={style.heading}>Book Review</h1>
+      </Link>
       <div className={style.userInfo}>
         {user && <span>{user.name}</span>}
         {user && (

@@ -10,8 +10,9 @@
 }
 
 .content {
-  padding: 16px; /* Optional: Add some padding around the content */
   overflow-y: auto; /* Optional: Enable vertical scrolling if content overflows */
   width: 1280px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
 }
