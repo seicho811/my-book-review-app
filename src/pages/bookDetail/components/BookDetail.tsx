@@ -1,5 +1,7 @@
 import useBookDetail from "../components/useBookDetail";
 import style from "./bookDetail.module.css";
+import { isValidURL } from "../../../utils/validator";
+import Button from "../../../components/Button/Button";
 
 type BookDetailProps = {
   id: string;
@@ -13,19 +15,26 @@ export default function BookDetail({ id }: BookDetailProps) {
 
   return (
     <>
+      <nav className={style.nav}>
+        <Button onClick={() => window.history.back()}>&lt; Back</Button>
+      </nav>
       <div className={style.container}>
         <section className={style.bookSection}>
           <div className={style.titleRow}>
-            <a
-              href={bookDetail.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            {isValidURL(bookDetail.url) ? (
+              <a
+                href={bookDetail.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <h1 className={style.title}>{bookDetail.title}</h1>
+              </a>
+            ) : (
               <h1 className={style.title}>{bookDetail.title}</h1>
-            </a>
-            <button className={bookDetail.isMine ? "" : style.hidden}>
+            )}
+            <Button className={bookDetail.isMine ? "" : style.hidden}>
               Edit
-            </button>
+            </Button>
           </div>
           <p className={style.detail}>{bookDetail.detail}</p>
         </section>
