@@ -9,6 +9,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import ProfilePage from "./pages/profile/ProfilePage";
 import NewPostPage from "./pages/newPost/NewPostPage";
+import BookDetailPage from "./pages/bookDetail/bookDetailPage";
 
 function App() {
   return (
@@ -33,6 +34,10 @@ function App() {
             />
             <Route element={<PrivateRoute />}>
               <Route
+                index
+                element={<HomePage />}
+              />
+              <Route
                 path="/home"
                 element={<HomePage />}
               />
@@ -43,6 +48,10 @@ function App() {
               <Route
                 path="/new"
                 element={<NewPostPage />}
+              />
+              <Route
+                path="/detail/:id"
+                element={<BookDetailPage />}
               />
             </Route>
           </Route>

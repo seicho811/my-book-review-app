@@ -13,7 +13,7 @@ function parsePageParams(raw: string | null): number {
 export default function HomePage() {
   const [sp, setSp] = useSearchParams();
   const page = useMemo(() => parsePageParams(sp.get("page")), [sp]);
-  const { books, fetchBooks, hasNext } = useBooks();
+  const { books, fetchBooks, hasNext, onClickBook } = useBooks();
 
   useEffect(() => {
     fetchBooks(page);
@@ -47,6 +47,9 @@ export default function HomePage() {
                 <div
                   key={book.id}
                   className={style.card}
+                  onClick={() => {
+                    onClickBook(book.id);
+                  }}
                 >
                   <div className={`${style.header}`}>
                     <h2>{book.title}</h2>

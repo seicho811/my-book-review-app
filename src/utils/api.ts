@@ -124,6 +124,38 @@ async function postNewBook(token: string, book: Book) {
   return res.json();
 }
 
+async function fetchBookDetail(token: string, id: string) {
+  const res = await fetch(`${BASE_URL}/books/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch book detail (${res.status}): ${res.statusText}`
+    );
+  }
+
+  return res.json();
+}
+
+async function postLog(token: string, id: string) {
+  const res = await fetch(`${BASE_URL}/logs`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "aaplication/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ selectBookId: id }),
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to post log (${res.status}): ${res.statusText}`);
+  }
+  return res.json();
+}
+
 export {
   signUp,
   uploadIcon,
@@ -132,4 +164,6 @@ export {
   updateUserInfo,
   getBooks,
   postNewBook,
+  fetchBookDetail,
+  postLog,
 };

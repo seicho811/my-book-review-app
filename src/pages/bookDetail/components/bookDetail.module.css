@@ -1,0 +1,59 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #2e2361;
+  max-width: 600px;
+  width: 100%;
+  height: 100%;
+  min-height: 600px;
+  margin: auto;
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.title {
+  margin: 0;
+  color: #fff;
+}
+
+.detail {
+  color: #ddd;
+  margin: 0;
+}
+
+.reviewSection {
+  background-color: #3e2f7e;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: auto;
+}
+
+.reviewTitle {
+  margin: 0 0 8px 0;
+  color: #fff;
+}
+
+.review {
+  font-style: italic;
+  margin: 8px 0;
+}
+
+.reviewer {
+  color: #8067ee;
+  text-align: right;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.hidden {
+  display: none;
+}
