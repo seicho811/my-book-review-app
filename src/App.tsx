@@ -10,6 +10,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import ProfilePage from "./pages/profile/ProfilePage";
 import NewPostPage from "./pages/newPost/NewPostPage";
 import BookDetailPage from "./pages/bookDetail/bookDetailPage";
+import EditBookDetail from "./pages/editBookDetail/EditBookDetail";
 
 function App() {
   return (
@@ -52,6 +53,10 @@ function App() {
               <Route
                 path="/detail/:id"
                 element={<BookDetailPage />}
+              />
+              <Route
+                path="/edit/:id"
+                element={<EditBookDetail />}
               />
             </Route>
           </Route>

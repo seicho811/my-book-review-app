@@ -23,7 +23,8 @@ export default function useNewPostForm() {
 
   const onValid: SubmitHandler<Inputs> = async (data) => {
     try {
-      const res = await postNewBook(token, data);
+      // const res = await postNewBook(token, data);
+      throw new Error("Test: Failed to post new book.");
     } catch {
       throw new Error("Failed to post new book.");
     }

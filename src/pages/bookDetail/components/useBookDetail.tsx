@@ -1,6 +1,7 @@
 import { fetchBookDetail } from "../../../utils/api";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useMemo, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 type BookDetail = {
   id: string;
@@ -16,6 +17,7 @@ type UseBookDetailResult = {
   bookDetail: BookDetail | null;
   loading: boolean;
   error: Error | null;
+  navigate: ReturnType<typeof useNavigate>;
 };
 
 export default function useBookDetail(id: string | null): UseBookDetailResult {
@@ -23,6 +25,7 @@ export default function useBookDetail(id: string | null): UseBookDetailResult {
   const [bookDetail, setBookDetail] = useState<BookDetail | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const navigate = useNavigate();
 
   const fetchError = useMemo(() => {
     if (!id) return new Error("No id provided");
@@ -64,5 +67,5 @@ export default function useBookDetail(id: string | null): UseBookDetailResult {
     };
   }, [fetchError, id, token]);
 
-  return { bookDetail, loading, error };
+  return { bookDetail, loading, error, navigate };
 }

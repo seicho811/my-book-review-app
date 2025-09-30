@@ -8,7 +8,7 @@ type BookDetailProps = {
 };
 
 export default function BookDetail({ id }: BookDetailProps) {
-  const { bookDetail, loading, error } = useBookDetail(id);
+  const { bookDetail, loading, error, navigate } = useBookDetail(id);
   if (error) return <div>Error: {error.message}</div>;
   if (loading) return <div>Loading...</div>;
   if (!bookDetail) return <div>No book detail found.</div>;
@@ -32,7 +32,10 @@ export default function BookDetail({ id }: BookDetailProps) {
             ) : (
               <h1 className={style.title}>{bookDetail.title}</h1>
             )}
-            <Button className={bookDetail.isMine ? "" : style.hidden}>
+            <Button
+              className={bookDetail.isMine ? "" : style.hidden}
+              onClick={() => navigate(`/edit/${bookDetail.id}`)}
+            >
               Edit
             </Button>
           </div>
