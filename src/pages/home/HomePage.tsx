@@ -43,25 +43,23 @@ export default function HomePage() {
         <div className={style.books_container}>
           {books.map((book) => {
             return (
-              <>
-                <div
-                  key={book.id}
-                  className={style.card}
-                  onClick={() => {
-                    onClickBook(book.id);
-                  }}
-                >
-                  <div className={`${style.header}`}>
-                    <h2>{book.title}</h2>
-                  </div>
-                  <div className={`${style.content}`}>
-                    <p className={`${style.book_review}`}>{book.review}</p>
-                    <p className={`${style.book_reviewer}`}>
-                      Reviewed by: {book.reviewer}
-                    </p>
-                  </div>
+              <div
+                key={book.id}
+                className={style.card}
+                onClick={() => {
+                  onClickBook(book.id);
+                }}
+              >
+                <div className={`${style.header}`}>
+                  <h2>{book.title}</h2>
                 </div>
-              </>
+                <div className={`${style.content}`}>
+                  <p className={`${style.book_review}`}>{book.review}</p>
+                  <p className={`${style.book_reviewer}`}>
+                    Reviewed by: {book.reviewer}
+                  </p>
+                </div>
+              </div>
             );
           })}
         </div>
