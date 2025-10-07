@@ -37,9 +37,11 @@ export default function HomePage() {
   return (
     <>
       <div className={style.container}>
-        <Link to="/new">
-          <Button className={style.new_book_button}>+ New book</Button>
-        </Link>
+        <div className={style.header_row}>
+          <Link to="/new">
+            <Button className={style.new_book_button}>+ New book</Button>
+          </Link>
+        </div>
         <div className={style.books_container}>
           {books.map((book) => {
             return (

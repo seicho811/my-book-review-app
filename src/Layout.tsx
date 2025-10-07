@@ -3,12 +3,17 @@ import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import style from "./Layout.module.css";
 
-export default function Layout() {
+type LayoutProps = {
+  variant: "auth" | "app";
+};
+
+export default function Layout({ variant = "app" }: LayoutProps) {
+  const contentClass = variant === "auth" ? style.auth : style.app;
   return (
     <>
       <div className={style.layout}>
         <Header />
-        <div className={style.content}>
+        <div className={contentClass}>
           <Outlet />
         </div>
         <Footer />

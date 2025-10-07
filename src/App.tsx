@@ -19,7 +19,7 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<Layout />}
+            element={<Layout variant="auth" />}
           >
             <Route
               path="/login"
@@ -33,6 +33,12 @@ function App() {
               path="/logout"
               element={<LogoutPage />}
             />
+          </Route>
+
+          <Route
+            path="/"
+            element={<Layout />}
+          >
             <Route element={<PrivateRoute />}>
               <Route
                 index

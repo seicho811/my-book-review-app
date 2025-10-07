@@ -1,7 +1,7 @@
 .layout {
   display: grid;
   grid-template-rows: auto 1fr auto;
-  height: 100vh;
+  min-height: 100%;
   max-width: 100%;
 }
 
@@ -9,11 +9,26 @@
   height: 16px; /* Adjust the height as needed */
 }
 
-.content {
+.app {
+  overflow-y: auto; /* Optional: Enable vertical scrolling if content overflows */
+  width: 1280px;
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  gap: 32px;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(36, 36, 36);
+}
+
+.auth {
   overflow-y: auto; /* Optional: Enable vertical scrolling if content overflows */
   width: 1280px;
   margin: 0 auto;
   padding: 16px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(36, 36, 36);
 }
