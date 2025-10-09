@@ -4,7 +4,7 @@ import Header from "./components/Header/Header";
 import style from "./Layout.module.css";
 
 type LayoutProps = {
-  variant: "auth" | "app";
+  variant?: "auth" | "app";
 };
 
 export default function Layout({ variant = "app" }: LayoutProps) {

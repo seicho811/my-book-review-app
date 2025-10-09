@@ -1,0 +1,54 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 0.9rem;
+}
+
+.textarea {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 0.9rem;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.alert {
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background-color: rgb(235, 103, 94);
+  padding: 4px;
+  margin: 0;
+  border-radius: 4px;
+}
+
+.success {
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background-color: #26c7d9;
+  padding: 4px;
+  margin: 0;
+  border-radius: 4px;
+  text-align: center;
+}

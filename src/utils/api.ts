@@ -141,6 +141,23 @@ async function fetchBookDetail(token: string, id: string) {
   return res.json();
 }
 
+async function updateBookDetail(token: string, id: string, book: Book) {
+  const res = await fetch(`${BASE_URL}/books/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(book),
+  });
+  if (!res.ok) {
+    throw new Error(
+      `Failed to update book detail (${res.status}): ${res.statusText}`
+    );
+  }
+  return res.json();
+}
+
 async function postLog(token: string, id: string) {
   const res = await fetch(`${BASE_URL}/logs`, {
     method: "POST",
@@ -165,5 +182,6 @@ export {
   getBooks,
   postNewBook,
   fetchBookDetail,
+  updateBookDetail,
   postLog,
 };
