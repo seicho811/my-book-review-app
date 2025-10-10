@@ -11,7 +11,7 @@ export default function EditBookDetail() {
     onSubmit,
     isSubmitSuccessful,
     errors,
-  } = useEditBookDetail(params.id);
+  } = useEditBookDetail(params.id ?? null);
   if (loading) return <div>Loading...</div>;
   if (!bookDetail) return <div>No book detail found.</div>;
 

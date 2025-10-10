@@ -22,6 +22,13 @@ export default function useNewPostForm() {
   const navigate = useNavigate();
 
   const onValid: SubmitHandler<Inputs> = async (data) => {
+    if (!token) {
+      setError("root", {
+        message: "You must be logged in to post a new book.",
+      });
+      return;
+    }
+
     try {
       await postNewBook(token, data);
     } catch {

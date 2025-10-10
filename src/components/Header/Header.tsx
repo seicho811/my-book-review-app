@@ -19,6 +19,7 @@ export default function Header() {
         {user && (
           <button
             className="icon"
+            aria-label="Edit Profile"
             onClick={() => navigate("/profile")}
           >
             <PencilIcon />

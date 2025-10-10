@@ -1,7 +1,12 @@
 import { useAuth } from "../../../contexts/AuthContext";
 import { useEffect, useState } from "react";
 import { fetchBookDetail, updateBookDetail } from "../../../utils/api";
-import { useForm, type UseFormRegister } from "react-hook-form";
+import {
+  useForm,
+  type UseFormRegister,
+  type FieldErrors,
+  type SubmitHandler,
+} from "react-hook-form";
 
 type BookDetail = {
   id: string;
@@ -16,12 +21,11 @@ type BookDetail = {
 type UseEditBookResults = {
   bookDetail: BookDetail | null;
   loading: boolean;
-  error: Error | null;
   setBookDetail: React.Dispatch<React.SetStateAction<BookDetail | null>>;
   register: UseFormRegister<Inputs>;
   isSubmitSuccessful: boolean;
-  errors: Record<string, any>;
-  onSubmit: (data: Inputs) => Promise<void>;
+  errors: FieldErrors<Inputs>;
+  onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
 };
 
 type Inputs = {
@@ -84,9 +88,13 @@ export default function useEditBookDetail(
     return () => {
       isCancelled = true;
     };
-  }, [id, token, reset]);
+  }, [id, token, reset, setError]);
 
-  const onValid = async (data: Inputs) => {
+  const onValid: SubmitHandler<Inputs> = async (data) => {
+    if (!token || !id) {
+      setError("root", { message: "No token or id provided" });
+      return;
+    }
     try {
       await updateBookDetail(token, id, data);
     } catch {
